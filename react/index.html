@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- react 설치를 위한 url -->
+    <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    
+    <div id="root"></div>
+
+    <script>
+        // 기존의 방식은 HTML생성 -> Javascript접근 -> HTML갱신
+        // 리액트는 Javascript로 HTML생성 -> HTML갱신
+        const root = document.getElementById('root');
+
+        // ReactJS: 어플리케이션을 아주 interactive하도록 만들어주는 라이브러리 (엔진)
+        // ReactDOM: 라이브러리 or 패키지, 모든 React Element들을 HTML로 바꾸는 역할
+        // React.createElement(태그명, {속성명:값}, 콘텐츠);
+        const h3 = React.createElement(
+            "h3",{
+                id:"title",
+                style:{color:"blue"},
+                onMouseEnter: ()=> console.log("mouse enter"), 
+            },"Hello I'm a span");
+
+        //props 안에서 event Listener를 등록할 수 있는게 이것이 ReactJS의 가장 큰 장점
+        const btn = React.createElement("button",{
+            onClick: ()=> console.log("I'm clicked")
+        },"클릭");
+
+        //두 개의 태그를 render하는 div태그 생성
+        const container = React.createElement("div",null,[h3, btn]);
+        
+        // render: React Element를 가지고 HTML로 만들어 배치하는 기능 == 사용자에게 보여준다는 의미
+        // span태그를 어디에 둘 것인지에 대한 정보가 필요
+        ReactDOM.render(container, root);       
+
+        /////////////////////////////22-01-24///////////////////////////
+        // createElement를 대체할 수 있는 방법 -> 앞으로 이 방식으로 Element를 생성해 나감
+        // 이걸 대체하려는 이유는 개발자들에게 좀 더 편리한 도구를 사용하게 하기 위함 ---> JSX(Javascript XML)
+        // HTML에서 사용한 문법과 흡사한 문법을 사용해서 Element를 생성하는 방식
+        // 그래서 JSX로 React Element를 만드는 게 개발자들 입장에서는 굉장히 편리한 방식
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- react 설치를 위한 url -->
+    <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+
+    <!-- JSX를 사용하기 위해 Babel 라이브러리 추가 + <script> 태그의 type속성을 반드시 "text/babel"로 설정해줘야 동작-->
+    <!-- Babel은 JSX를 React문법으로 변환해주는 변환기 -->
+    <!-- https://babeljs.io/setup#installation -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <title>Document</title>
+</head>
+<body>
+    
+    <div id="root"></div>
+
+    <script type="text/babel">
+        //지난 시간 배운 내용 정리
+        //1. 컴포넌트나 JSX에 변수를 추가할 때 {변수나 컴포넌트명}
+        //2. UI를 업데이트하고 싶다면 사용자에게 무언가 변화된 부분을 보여주고 싶다면 render함수를 다시 호출
+        
+        //이번에는 countUp에서 redner함수를 호출할 때에는 
+        //Container 컴포넌트가 바뀐 counter 값을 가지고 업데이트할 것임
+
+
+        const root = document.getElementById('root');
+
+        /*
+            ///HTML코드///
+                <span>Total click: 0</span>
+                <button id="btn">클릭</button>
+
+            ///Javascript코드///    
+            let counter = 0;
+            const button = document.querySelector('#btn');
+            const span = document.querySelector('span');
+
+            function handleClick(){
+                console.log("클릭!");
+                counter += 1;
+                span.innerText = `Total click: ${counter}`; 
+            }
+
+            button.addEventListener('click', handleClick);
+            를 App() 함수가 대체
+        */
+        
+        //Container -< App 이름으로 변경
+        //★★React.js의 핵심은 리렌더링 되었을 때, Element와 Event를 재생성하는 것이 아니라 
+        //데이터가 변화하는 부분만을 UI 업데이트 한다는 점!
+        function App(){
+            //React.useState() -> [undefined, f] 배열값을 출력 -> [초기값, 초기값을 변경할 수 있는 함수]
+            //undefined가 데이터를 의미
+            //f는 데이터를 바꿀 때 사용하는 함수
+            //이 함수는 아래와 같이 초기값 설정이 가능
+            //그러면 undefined 위치에 초기값 설정이 됨
+            //그리고 f는 이전에 만들었던 countUp 함수를 대신하는 역할
+            /*
+                let counter = 0; <-- undefined
+                function countUp(){ counter = counter + 1 } <-- f 
+            */
+           //React.useState()는 우리한테 counter라는 data를 주고, 그 counter 값을 바꿀 수 있는 함수를 제공
+           // -> 반환타입: array
+            // const data = React.useState(0);
+            // const counter = data[0];
+            // const modifier = data[1];
+            // console.log(data);
+
+            //배열 내 있는 값을 각 변수에 저장해주고 싶을 때 사용하는 새로운 방식 
+            //let [counter, modifier] = React.useState(0);
+
+            //클릭 함수를 만들어서 실행해도 웹 페이지에 반영되지 않음
+            /*
+                const onClick = () => {
+                    counter = counter + 1;
+
+                    //아래와 같이 웹 페이지를 리렌더링하는 코드가 있어야 함 ( 이전과 같은 상황.. )
+                    return (
+                        <div>
+                            <h3>Total Clicks : {counter}</h3>    
+                            <button onClick={onClick}>Click me</button>
+                        </div>
+                    );
+                }
+            */
+
+            //let 를 우선 const로 변경
+            // * let을 사용했던 이유는 onClick 함수에서 counter변수값을 변경하기 위함이었음
+            // const [counter, modifier] = React.useState(0);
+            const [counter, setCounter] = React.useState(0);
+
+            console.log('render');
+            console.log(counter);
+
+            const onClick = () => {
+                // --> 값의 변화를 주고 자동으로 리렌링 
+                // 직접 ReactDOM.render(<App/>, root);를 하지 않아도 됨
+                // 추가적으로 modifier라는 이름은 변경이 가능!
+                // 예를 들면 숫자를 업데이트하는 기능이니 setCounter로 변경해보자
+                // modifier();
+                
+                setCounter(counter + 1);
+            }
+            
+            return (
+                <div>
+                    <h3>Total Clicks : {counter}</h3>    
+                    <button onClick={onClick}>Click me</button>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App/>, root); 
+
+    </script>
+
+</body>
+</html>

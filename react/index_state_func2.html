@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- production:배포모드 / development: 개발모드 -->
+    <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <title>Document</title>
+</head>
+<body>
+    
+    <div id="root"></div>
+
+    <script type="text/babel">
+
+        //단위변환기 만들기
+        //1. 분 -> 시 변환
+        //2. 시 -> 분 변환 (flip버튼활용)
+
+        //html 요소에 class나 for 속성을 사용하지 못하는 이유는 Javascript에서 사용하는 키워드로 인식하기 때문
+        //JSX문법을 사용할 때에는 class -> className , for -> htmlFor 로 정의해야 함
+        //React에서는 input은 uncontrolled -> input의 value를 통제할 수 없음 -> state를 활용해서 value를 설정&업데이트 해야 함
+        const root = document.getElementById('root');
+
+        function App(){            
+            const [minutes, setMinutes] = React.useState(0);
+            const onChanage = (event) => {
+                //이벤트객체가 합성이벤트(가짜이벤트)로 보여지게 되는데 이유는 React에서 이벤트를 최적화시키기 위함
+                //오리지널 이벤트 접근은 합성이벤트객체 내부에서 접근이 가능
+                //state값을 input태그가 리스닝할 수 있게 value속성에 minutes변수 설정
+                // console.log('somebody wrote.');
+                // console.log(event);
+                // console.log(event.target.value);
+                setMinutes(event.target.value);
+                
+            }
+            const onReset = () => setMinutes(0);
+
+            return (
+                <div> 
+                    <h1 className="hi">Super Converter</h1>
+                    <div>
+                        <label htmlFor="minutes">Minutes</label>
+                        <input 
+                            value={minutes}
+                            id="minutes" 
+                            type="number" 
+                            placeholder="Minutes" 
+                            onChange={onChanage} />
+                        <h4>You want to Conveter {minutes}</h4>
+                    </div>
+                    <div>
+                        <label htmlFor="hours">Hours</label>
+                        <input 
+                            value={Math.round(minutes / 60)} 
+                            id="hours" 
+                            type="number" 
+                            placeholder="Hours"  
+                            disabled/>
+                        </div>
+                        <button onClick={onReset}>Reset</button>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App/>, root); 
+
+    </script>
+
+</body>
+</html>

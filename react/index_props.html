@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- production:배포모드 / development: 개발모드 -->
+    <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <title>Document</title>
+</head>
+<body>
+    
+    <div id="root"></div>
+
+    <script type="text/babel">
+        //Props: 부모 컴포넌트로부터 자식 컴포넌트에 데이터를 보낼 수 있게 해주는 방법 
+        //현재 코드에서는 Props가 필요하진 않지만 예시를 만들어 볼 것임
+
+        //애플리케이션을 만드는데 필요한 버튼들이 여러 가지가 있음
+        //변경 사항 저장 버튼, 취소 버튼, 로그인 버튼, 확인 버튼 등
+        //그러나, 대부분의 회사들은 이 모든 버튼들이 같은 모습을 가짐 --> 똑같아 보이게 만드는게 디자이너의 역할임
+        //하지만 우린 아직 어떻게 리액트 컴포넌트를 재사용할 수 있게 만드는지 모름
+        //만드는 방법을 모르기 때문에 아는 방법으로 각 버튼들을 만들어볼 것임
+        const root = document.getElementById('root');
+
+         //SaveBtn과 ConfirmBtn을 만들면 디자이너들이 봤을 때 구리다고 생각!
+        //그래서 각 버튼에 스타일을 적용해보고자 함    
+        //아래와 같이 스타일을 적용하고 ConfirmBtn에도 복붙해서 적용할 순 있지만 최적의 방법은 아님
+        //복붙 대신, 보다 좀 더 설정이 가능한 컴포넌트가 있다면 훨씬 효율적일 것임
+        //그래서 SaveBtn과 ConfirmBtn을 Btn이라는 하나의 함수형 컴포넌트로 통일
+
+        function Btn({ text }){
+            // console.log(props);
+
+            return (
+                <button
+                    style={{
+                        backgroundColor:"tomato",
+                        color:"white",
+                        padding:"10px 20px",
+                        border:0,
+                        borderRadius:10,
+                        cursor:"pointer",
+                        marginLeft:"5px"
+                    }}>
+                    { text }
+                </button>
+            );
+        }
+
+        function App(){            
+        
+            // HTML 요소에 속성값을 설정하는 문법과 같이 값을 넘길 수 있는 속성을 만들어 값을 함수형 컴포넌트로 전달
+            // <Btn text="Save Change"/> --> Btn({'text':'Save Change'})처럼  Javascript Object형태로 값이 넘어감
+            return( 
+                <div>
+                    <Btn text="Save Change"/>
+                    <Btn text="Confirm"/>
+                    <Btn text="Save"/>
+                    <Btn text="Cancel"/>
+                </div>);
+        }
+
+        ReactDOM.render(<App />, root);
+
+        //함수형 컴포넌트
+        // function SaveBtn(){
+        //     return (
+        //         <button
+        //             style={{
+        //                 backgroundColor:"tomato",
+        //                 color:"white",
+        //                 padding:"10px 20px",
+        //                 border:0,
+        //                 borderRadius:10
+        //             }}>
+        //             Save Change
+        //         </button>
+        //     );
+        // }
+
+        // function ConfirmBtn(){
+        //     return (
+        //         <button
+        //             style={{
+        //                 backgroundColor:"tomato",
+        //                 color:"white",
+        //                 padding:"10px 20px",
+        //                 border:0,
+        //                 borderRadius:10
+        //             }}>
+        //             Confirm
+        //         </button>
+        //     );
+        // }
+
+        // function App(){            
+        
+        //     return( 
+        //         <div>
+        //             <SaveBtn />
+        //             <ConfirmBtn />
+        //         </div>);
+        // }
+
+        // ReactDOM.render(<App/>, root); 
+
+    </script>
+
+</body>
+</html>
